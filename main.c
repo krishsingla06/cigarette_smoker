@@ -20,6 +20,8 @@ void* agent(void* arg) {
 
         printf("Agent: Producing items %d and %d\n", item1, item2);
 
+        sleep(0.5);
+
         if (item1 == 0) {
             sem_signal_custom(&tobacco);
         } else if (item1 == 1) {
@@ -27,6 +29,7 @@ void* agent(void* arg) {
         } else {
             sem_signal_custom(&match); 
         }
+        sleep(0.5);
 
         if (item2 == 0) {
             sem_signal_custom(&tobacco); 
@@ -35,6 +38,7 @@ void* agent(void* arg) {
         } else {
             sem_signal_custom(&match);
         }
+        sleep(0.5);
     }
 }
 
@@ -79,6 +83,8 @@ void* smoker(void* arg) {
             while (r3 != 2);
         }
 
+        sleep(1);
+
         printf("Smoker %d: Smoking...\n", id);
         sleep(1);
         r1 = 0; r2 = 0; r3 = 0;
@@ -96,16 +102,31 @@ int main() {
     pthread_t agent_thread, f_threads[3], smoker_threads[3];
     int smoker_ids[3] = {0, 1, 2};
 
+    sleep(1);
+
+
     pthread_create(&f_threads[0], NULL, f1, NULL); 
+    sleep(1);
+
     pthread_create(&f_threads[1], NULL, f2, NULL);
+    sleep(1);
+
     pthread_create(&f_threads[2], NULL, f3, NULL);
+    sleep(1);
+
 
     printf("fthreads created\n");
     sleep(1);
 
     pthread_create(&smoker_threads[0], NULL, smoker, &smoker_ids[0]);
+    sleep(1);
+
     pthread_create(&smoker_threads[1], NULL, smoker, &smoker_ids[1]);
+    sleep(1);
+
     pthread_create(&smoker_threads[2], NULL, smoker, &smoker_ids[2]);
+    sleep(1);
+
 
     printf("smoker threads created\n");
 
